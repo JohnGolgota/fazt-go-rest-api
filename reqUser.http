@@ -8,7 +8,7 @@ GET {{host}}/users HTTP/1.1
 
 ###
 
-GET {{host}}/users/10 HTTP/1.1
+GET {{host}}/users/2 HTTP/1.1
 
 ###
 
