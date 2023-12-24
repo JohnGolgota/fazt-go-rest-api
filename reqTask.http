@@ -8,7 +8,7 @@ GET {{host}}/users HTTP/1.1
 
 ###
 
-GET {{host}}/users/1 HTTP/1.1
+GET {{host}}/users/10 HTTP/1.1
 
 ###
 
@@ -16,9 +16,9 @@ POST {{host}}/users HTTP/1.1
 Content-Type: application/json
 
 {
-	"FirstName":"string",
-	"LastName":"string", 
-    "Email":"string"
+	"first_name":"Soy",
+	"last_name":"Soy", 
+    "email":"Soy"
 }
 
 ###
