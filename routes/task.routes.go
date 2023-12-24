@@ -9,6 +9,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type TaskRoute struct{}
+
+func (t TaskRoute) SetupRoutes(router *mux.Router) {
+	router.HandleFunc("/tasks", GetTasksHandler).Methods("GET")
+	router.HandleFunc("/tasks", CreateTaskHandler).Methods("POST")
+	router.HandleFunc("/tasks/{id}", GetTaskHandler).Methods("GET")
+	router.HandleFunc("/tasks/{id}", UpdateTaskHandler).Methods("PUT")
+	router.HandleFunc("/tasks/{id}", DeleteTaskHandler).Methods("DELETE")
+}
+
 func GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 	var tasks []models.Task
 	database.DB.Find(&tasks)
@@ -44,7 +54,19 @@ func GetTaskHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Update Task"))
+	var task models.Task
+	params := mux.Vars(r)
+
+	database.DB.First(&task, params["id"])
+	if task.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Task not found"))
+		return
+	}
+
+	json.NewDecoder(r.Body).Decode(&task)
+	database.DB.Save(&task)
+	json.NewEncoder(w).Encode(&task)
 }
 
 func DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {

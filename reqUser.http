@@ -1,9 +1,5 @@
 ###
 
-GET {{host}}/ HTTP/1.1
-
-###
-
 GET {{host}}/users HTTP/1.1
 
 ###
@@ -23,7 +19,11 @@ Content-Type: application/json
 
 ###
 
-PUT {{host}}/users/1 HTTP/1.1
+PUT {{host}}/users/2 HTTP/1.1
+
+{
+    "email":"Soy un Cacahuate"
+}
 
 ###
 
