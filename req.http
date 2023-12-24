@@ -1,0 +1,30 @@
+###
+
+GET {{host}}/ HTTP/1.1
+
+###
+
+GET {{host}}/users HTTP/1.1
+
+###
+
+GET {{host}}/users/1 HTTP/1.1
+
+###
+
+POST {{host}}/users HTTP/1.1
+Content-Type: application/json
+
+{
+	"FirstName":"string",
+	"LastName":"string", 
+    "Email":"string"
+}
+
+###
+
+PUT {{host}}/users/1 HTTP/1.1
+
+###
+
+DELETE {{host}}/users/1 HTTP/1.1

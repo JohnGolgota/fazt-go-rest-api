@@ -1,0 +1,33 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "workbench.colorTheme": "Shades of Purple (Super Dark)",
+        "workbench.iconTheme": "vscode-great-icons",
+        "rest-client.environmentVariables": {
+            "$shared": {
+                "port": "$processEnv PORT"
+            },
+            "local": {
+                "host": "http://localhost:8080",
+            }
+        }
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Start App",
+                // JAJA si esta horrible pero funciona
+                "command": "Set-TempEnvFromFile -EnvFile .env; air",
+                "type": "shell",
+                "presentation": {
+                    "reveal": "always"
+                },
+            }
+        ]
+    }
+}
