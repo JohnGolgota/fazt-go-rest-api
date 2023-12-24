@@ -9,6 +9,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type UserRoute struct{}
+
+func (u UserRoute) SetupRoutes(router *mux.Router) {
+	router.HandleFunc("/users", GetUsersHandler).Methods("GET")
+	router.HandleFunc("/users", CreateUserHandler).Methods("POST")
+	router.HandleFunc("/users/{id}", GetUserHandler).Methods("GET")
+	router.HandleFunc("/users/{id}", UpdateUserHandler).Methods("PUT")
+	router.HandleFunc("/users/{id}", DeleteUserHandler).Methods("DELETE")
+}
+
 func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
 	var users []models.User
 	database.DB.Find(&users)
@@ -46,7 +56,19 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Update User"))
+	var user models.User
+	params := mux.Vars(r)
+
+	database.DB.First(&user, params["id"])
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+
+	json.NewDecoder(r.Body).Decode(&user)
+	database.DB.Save(&user)
+	json.NewEncoder(w).Encode(&user)
 }
 
 func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
